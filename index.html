@@ -338,18 +338,19 @@
     background:rgba(0,0,0,0.28);border-radius:50px;padding:4px 9px;
     font-family:'Poppins','Noto Sans Hebrew',sans-serif;
   }
-  .voice-wave-wrap{position:relative;flex:1;min-width:0;}
+  .voice-wave-wrap{position:relative;flex:1;min-width:0;cursor:pointer;touch-action:none;padding:10px 0;margin:-10px 0;}
   .voice-wave{display:flex;align-items:center;gap:2.5px;height:24px;}
   .voice-wave span{
     display:block;width:2.5px;border-radius:2px;background:rgba(255,255,255,0.32);
-    transition:background .15s ease;flex-shrink:0;
+    flex-shrink:0;
   }
   .voice-wave span.played{background:rgba(255,255,255,0.92);}
   .voice-scrubber{
-    position:absolute;top:50%;right:100%;width:11px;height:11px;border-radius:50%;
+    position:absolute;top:50%;right:100%;width:13px;height:13px;border-radius:50%;
     background:#fff;box-shadow:0 1px 4px rgba(0,0,0,0.4);
-    transform:translate(50%,-50%);transition:right .15s linear;pointer-events:none;
+    transform:translate(50%,-50%);pointer-events:none;
   }
+  .voice-card.dragging .voice-scrubber{width:16px;height:16px;box-shadow:0 2px 8px rgba(0,0,0,0.5);}
   .voice-footer{
     position:absolute;bottom:8px;left:16px;right:16px;
     display:flex;align-items:center;justify-content:space-between;
@@ -406,7 +407,13 @@
   @media (prefers-reduced-motion: reduce){
     .glass-price-card .btn{animation:none;}
   }
-  @media (max-width:600px){ .glass-price-card{padding:34px 24px;} }
+  @media (max-width:600px){
+    .glass-price-card{padding:28px 18px;}
+    .glass-price-card h3{font-size:26px;}
+    .glass-price-card .title-underline{width:170px;margin:-8px auto 14px;}
+    .glass-price-card p{font-size:14px;line-height:1.6;margin-bottom:10px;}
+    .glass-price-card .btn{margin-top:8px;}
+  }
 
   /* Portfolio Slider */
   .folio-outer{position:relative;}
@@ -423,6 +430,9 @@
     transition:transform .4s ease, box-shadow .4s ease;
   }
   .folio-vid-wrap:hover{transform:translateY(-6px) scale(1.01);box-shadow:0 44px 100px rgba(15,23,42,0.18);}
+  @media (hover:none){
+    .folio-vid-wrap:active{transform:scale(1.015);box-shadow:0 40px 90px rgba(15,23,42,0.16);}
+  }
   .folio-video{width:100%;display:block;}
   .folio-info{flex:1;direction:rtl;padding:8px 0;}
   .folio-tag{
@@ -551,7 +561,6 @@
   .price-tag{font-size:28px;font-weight:800;color:var(--primary);margin-bottom:2px;font-family:'Poppins','Noto Sans Hebrew',sans-serif;}
   .price-tag .old{font-size:13px;color:var(--text-dim-dark);text-decoration:line-through;font-weight:400;margin-left:6px;}
   .price-tag span.unit{font-size:12px;color:var(--text-dim-dark);font-weight:400;display:block;margin-top:2px;font-family:'Noto Sans Hebrew','Poppins',sans-serif;}
-  .vat{font-size:11px;color:var(--text-dim-dark);opacity:.65;font-weight:500;vertical-align:super;margin-right:2px;letter-spacing:.1px;}
   .pricing-features{
     display:flex;flex-direction:column;gap:7px;text-align:right;
     max-width:340px;margin:14px auto 18px;
@@ -581,21 +590,23 @@
     background:#fff;color:var(--text-dark);font-family:inherit;font-size:15px;
   }
   .field input:focus, .field select:focus{outline:none;border-color:var(--primary);}
-  .pre-checkout-note{
-    background:rgba(109,74,255,0.08);border:1px solid rgba(109,74,255,0.25);
-    border-radius:12px;padding:14px 18px;margin-bottom:22px;font-size:14px;text-align:center;
+  .field input[type="tel"]{direction:ltr;text-align:right;}
+  .whatsapp-prefer-link{
+    display:block;text-align:center;margin-top:18px;font-size:13.5px;
+    color:var(--text-dim-dark);text-decoration:underline;text-underline-offset:3px;
   }
-  .pre-checkout-note a{color:var(--cta);font-weight:700;text-decoration:underline;}
+  .whatsapp-prefer-link:hover{color:var(--primary);}
 
   /* FAQ */
   .faq-item{
     border-bottom:1px solid var(--border-light);padding:22px 0;cursor:pointer;
   }
+  #faq .section-title{font-size:clamp(24px,3.4vw,34px);}
   .faq-q{display:flex;justify-content:space-between;align-items:center;font-weight:700;font-size:17px;gap:14px;}
   .faq-q .plus{color:var(--primary);font-size:22px;transition:transform .2s;flex-shrink:0;}
   .faq-item.open .plus{transform:rotate(45deg);}
-  .faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease;color:var(--text-dim-dark);font-size:15px;}
-  .faq-item.open .faq-a{max-height:260px;padding-top:14px;}
+  .faq-a{max-height:0;overflow:hidden;transition:max-height .5s cubic-bezier(0.4,0,0.2,1), padding-top .5s cubic-bezier(0.4,0,0.2,1);color:var(--text-dim-dark);font-size:15px;}
+  .faq-item.open .faq-a{padding-top:14px;}
 
   /* Final CTA */
   .final-cta{
@@ -645,16 +656,16 @@
 
   /* Floating Accessibility */
   .float-a11y{
-    position:fixed;bottom:96px;left:26px;z-index:60;
-    width:44px;height:44px;border-radius:50%;
+    position:fixed;bottom:98px;left:38px;z-index:60;
+    width:36px;height:36px;border-radius:50%;
     background:#64748B;display:flex;align-items:center;justify-content:center;
     box-shadow:0 6px 20px rgba(15,23,42,0.25);
     border:none;cursor:pointer;transition:transform .2s ease, background .2s ease;
   }
   .float-a11y:hover{transform:scale(1.06);background:#475569;}
-  .float-a11y svg{width:22px;height:22px;}
+  .float-a11y svg{width:18px;height:18px;}
   .a11y-panel{
-    position:fixed;bottom:148px;left:26px;z-index:61;
+    position:fixed;bottom:144px;left:26px;z-index:61;
     background:#fff;border-radius:16px;box-shadow:0 16px 50px rgba(15,23,42,0.25);
     padding:16px;width:220px;display:none;flex-direction:column;gap:8px;
   }
@@ -730,7 +741,7 @@
       <a href="#faq">שאלות</a>
     </nav>
     <div class="header-cta">
-      <a href="#packages" class="btn btn-cta btn-sm">דברו איתי</a>
+      <a href="https://wa.link/lws01i" target="_blank" class="btn btn-cta btn-sm">דברו איתי</a>
     </div>
   </div>
 </header>
@@ -966,7 +977,7 @@
             <span class="voice-timestamp">11:42 <svg viewBox="0 0 16 11" fill="none" stroke="#7ad7f0" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M1 5.5L4.5 9 10 1.5"/><path d="M6 5.5L9.5 9 15 1.5"/></svg></span>
           </div>
         </div>
-        <audio preload="metadata" src="audio/review-ella-cosmetics.mp3"></audio>
+        <audio preload="auto" src="audio/review-ella-cosmetics.mp3"></audio>
       </div>
       <div class="voice-card reveal" data-audio="audio/review-oren-realestate.mp3">
         <div class="voice-sender">
@@ -987,7 +998,7 @@
             <span class="voice-timestamp">18:18 <svg viewBox="0 0 16 11" fill="none" stroke="#7ad7f0" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M1 5.5L4.5 9 10 1.5"/><path d="M6 5.5L9.5 9 15 1.5"/></svg></span>
           </div>
         </div>
-        <audio preload="metadata" src="audio/review-oren-realestate.mp3"></audio>
+        <audio preload="auto" src="audio/review-oren-realestate.mp3"></audio>
       </div>
     </div>
   </div>
@@ -1005,13 +1016,11 @@
     <div class="glass-price-card reveal">
       <h3>שקיפות ואמינות</h3>
       <svg class="title-underline" viewBox="0 0 240 16" xmlns="http://www.w3.org/2000/svg"><path d="M4 7C50 13 110 14 160 6.5 185 3 213 4 236 9"/></svg>
-      <p>חשוב לי שתדעו שאצלי אין הפתעות ואין עלויות נסתרות.</p>
-      <p>המחיר שמופיע בהצעת המחיר הוא המחיר שתשלמו - בלי תוספות בהמשך ובלי אותיות קטנות.</p>
-      <p>תוך מספר ימים תקבלו אתר פעיל, מוכן לשימוש, ותוכלו כבר להתחיל לשלוח אליו לקוחות.</p>
-      <p>לאחר העלייה לאוויר תקבלו שבוע שלם לתיקונים, כדי שתוכלו לעבור על האתר בנחת, לבדוק שהכול נראה בדיוק כמו שרציתם ולבקש כל שינוי שצריך. <span class="fun-underline">חשוב לי שתהיו מרוצים מהתוצאה, ולכן אני דואגת שהכול יעבוד בצורה תקינה לפני שמסיימים את התהליך.</span></p>
-      <p>גם אחרי זה אני תמיד משתדלת להיות זמינה ולעזור ללקוחות שלי כשצריך. השירות והיחס האישי חשובים לי לא פחות מהעיצוב עצמו, ואני רוצה שלקוחות ימשיכו להמליץ עליי ❤️.</p>
+      <p>חשוב לי שתדעו שאצלי אין הפתעות ואין עלויות נסתרות - המחיר שמופיע בהצעה הוא המחיר הסופי, בלי תוספות ובלי אותיות קטנות.</p>
+      <p>תוך מספר ימים תקבלו אתר פעיל ומוכן לשימוש, ותוכלו כבר להתחיל לשלוח אליו לקוחות.</p>
+      <p>לאחר העלייה לאוויר תקבלו שבוע שלם לתיקונים כדי לוודא שהכול נראה בדיוק כמו שרציתם, <span class="fun-underline">ואני דואגת שהכול יעבוד בצורה תקינה לפני שמסיימים את התהליך</span>. גם אחרי זה אני תמיד זמינה ללקוחות שלי - השירות והיחס האישי חשובים לי לא פחות מהעיצוב עצמו ❤️.</p>
       <p>אם זה נשמע מתאים לכם, אשמח לדבר ולהתחיל לבנות גם את האתר שלכם.</p>
-      <a href="https://wa.link/67ky7y" target="_blank" class="btn btn-cta">דברו איתי לפני שמחליטים</a>
+      <a href="https://wa.link/lws01i" target="_blank" class="btn btn-cta">דברו איתי לפני שמחליטים</a>
     </div>
   </div>
 </section>
@@ -1050,10 +1059,10 @@
     <div class="packages-grid">
       <div class="pricing-wrap reveal">
         <div class="card-title-band">
-          <h3>בסיס</h3>
+          <h3>בסיסי ומדויק</h3>
           <p class="lead">לעסקי שירות שרוצים נוכחות מקצועית ,ממוקדת המרה.</p>
         </div>
-        <div class="price-tag">₪2,390<span class="vat">+ מע"מ</span> <span class="old">₪4,400</span><span class="unit">תשלום חד-פעמי</span></div>
+        <div class="price-tag">₪2,390 <span class="old">₪4,400</span><span class="unit">תשלום חד-פעמי + מע"מ</span></div>
         <ul class="pricing-features">
           <li>שיחת אפיון קצרה להבנת העסק והמטרה</li>
           <li>עמוד נחיתה אחד בהתאמה אישית</li>
@@ -1066,7 +1075,7 @@
           <li>שבוע תיקונים לאחר העלייה לאוויר</li>
         </ul>
         <div class="hero-ctas" style="margin-bottom:0;">
-          <button class="btn btn-outline-light btn-block" onclick="selectPackage('בסיס')">אני רוצה להתקדם »</button>
+          <button class="btn btn-outline-light btn-block" onclick="selectPackage('בסיסי ומדויק')">אני רוצה להתקדם »</button>
         </div>
       </div>
 
@@ -1076,9 +1085,9 @@
           <h3>המשתלם ביותר</h3>
           <p class="lead">החבילה הפופולרית ביותר - לעסק שרוצה אתר מוכן לשיווק, עם יותר עומק וחיבורים חשובים.</p>
         </div>
-        <div class="price-tag">₪3,299<span class="vat">+ מע"מ</span> <span class="old">₪5,200</span><span class="unit">תשלום חד-פעמי</span></div>
+        <div class="price-tag">₪3,299 <span class="old">₪5,200</span><span class="unit">תשלום חד-פעמי + מע"מ</span></div>
         <ul class="pricing-features">
-          <li>כולל את כל מה שיש בבסיס, ובנוסף:</li>
+          <li>כולל את כל מה שיש בחבילה הבסיסית, ובנוסף:</li>
           <li class="plus">אפיון מדויק יותר של העסק וקהל היעד</li>
           <li class="plus">מבנה עמוד מורחב ומעמיק יותר</li>
           <li class="plus">סיוע בעריכת ושיפור התוכן כולל שימוש בפיתוח AI</li>
@@ -1098,7 +1107,7 @@
           <h3>פרמיום 👑</h3>
           <p class="lead">לעסקים שרוצים נוכחות דיגיטלית מקיפה, עם אתר רב-עמודי וליווי שיווקי מתמשך.</p>
         </div>
-        <div class="price-tag">₪4,590<span class="vat">+ מע"מ</span> <span class="old">₪6,900</span><span class="unit">תשלום חד-פעמי</span></div>
+        <div class="price-tag">₪4,590 <span class="old">₪6,900</span><span class="unit">תשלום חד-פעמי + מע"מ</span></div>
         <ul class="pricing-features">
           <li>כל מה שיש בחבילות הקודמות ובנוסף:</li>
           <li class="plus">אתר רב־עמודי (עד 3 עמודים)</li>
@@ -1115,29 +1124,27 @@
       </div>
     </div>
 
-    <a href="https://wa.link/67ky7y" target="_blank" class="talk-link" style="text-align:center;">לא בטוחים איזו חבילה מתאימה לכם? דברו איתי לפני שמחליטים</a>
+    <a href="https://wa.link/lws01i" target="_blank" class="talk-link" style="text-align:center;">לא בטוחים איזו חבילה מתאימה לכם? דברו איתי לפני שמחליטים</a>
 
     <div id="leadForm" class="form-card" style="margin-top:36px;">
       <h3>כמה פרטים קטנים, ומתחילים</h3>
-      <p class="note" id="selectedPackageNote">אחרי שתשלימי את הפרטים תועברי לתשלום מאובטח</p>
-      <form onsubmit="goToCheckout(event)">
+      <p class="note" id="selectedPackageNote">בחירה מצוינת! מלאו את הפרטים ואחזור אליכם בהקדם כדי להתחיל בתהליך האפיון ולהבין לעומק מה העסק שלכם צריך.</p>
+      <form onsubmit="submitLeadForm(event)">
         <div class="field">
           <label>שם מלא</label>
-          <input type="text" required placeholder="איך קוראים לך?">
+          <input type="text" name="שם מלא" required placeholder="איך קוראים לך?">
         </div>
         <div class="field">
           <label>טלפון</label>
-          <input type="tel" required placeholder="050-0000000">
+          <input type="tel" name="טלפון" required placeholder="050-0000000">
         </div>
         <div class="field">
           <label>סוג העסק / השירות</label>
-          <input type="text" required placeholder="למשל: קליניקה, קורס, עסק קטן">
+          <input type="text" name="סוג העסק" required placeholder="למשל: קליניקה, קורס, עסק קטן">
         </div>
-        <div class="pre-checkout-note">
-          רגע לפני שעוברים לתשלום - יש שאלה? <a href="https://wa.link/67ky7y" target="_blank">דברו איתנו לפני</a>
-        </div>
-        <button type="submit" class="btn btn-cta btn-block">המשך לתשלום מאובטח</button>
+        <button type="submit" class="btn btn-cta btn-block">שליחת הפרטים</button>
       </form>
+      <a href="https://wa.link/lws01i" target="_blank" class="whatsapp-prefer-link">מעדיפים לדבר איתי קודם? דברו איתי בוואטסאפ</a>
     </div>
   </div>
 </section>
@@ -1191,7 +1198,7 @@
     <p class="reveal">שיחת ייעוץ ללא עלות ולא מכל ההתחייבות - נבין יחד איך אתר נכון לעסק שלך יכול לקחת אתכם לשלב הבא.</p>
     <div class="hero-ctas">
       <a href="#packages" class="btn" style="background:#fff;color:var(--primary);">בואו נדבר על האתר שלכם</a>
-      <a href="https://wa.link/67ky7y" target="_blank" class="btn btn-whatsapp">דברו איתי בוואטסאפ</a>
+      <a href="https://wa.link/lws01i" target="_blank" class="btn btn-whatsapp">דברו איתי בוואטסאפ</a>
     </div>
   </div>
 </section>
@@ -1210,13 +1217,13 @@
         <p>סיסטם שהופך תנועה ללקוחות. אנחנו בונים אתרים שמייצרים תוצאות אמיתיות לעסק שלך.</p>
         <div class="footer-social">
           <a href="https://www.facebook.com/profile.php?id=61591177893725" target="_blank" aria-label="פייסבוק"><svg width="16" height="16" viewBox="0 0 24 24" fill="#fff"><path d="M13.5 21v-7h2.4l.4-3h-2.8V9.3c0-.87.24-1.46 1.5-1.46H16V5.1c-.27-.04-1.2-.1-2.27-.1-2.25 0-3.8 1.37-3.8 3.9V11H7.5v3H9.93v7h3.57z"/></svg></a>
-          <a href="https://wa.link/67ky7y" target="_blank" aria-label="וואטסאפ"><svg width="16" height="16" viewBox="0 0 24 24" fill="#fff"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.85.5 3.58 1.36 5.07L2 22l5.2-1.47a9.86 9.86 0 0 0 4.84 1.28h.01c5.46 0 9.91-4.45 9.91-9.9C21.96 6.45 17.5 2 12.04 2zm5.8 13.99c-.24.68-1.4 1.3-1.92 1.38-.49.08-1.1.11-1.78-.11-.41-.13-.93-.3-1.6-.59-2.83-1.22-4.67-4.06-4.81-4.25-.14-.19-1.15-1.53-1.15-2.92 0-1.39.73-2.07.99-2.35.26-.28.56-.35.75-.35.19 0 .38 0 .54.01.17.01.41-.07.64.49.24.58.81 2 .88 2.14.07.14.12.31.02.5-.1.19-.15.31-.3.48-.15.17-.31.37-.44.5-.14.14-.29.29-.13.57.16.28.74 1.21 1.59 1.96 1.1.97 2.03 1.27 2.32 1.41.29.14.46.12.63-.07.17-.19.71-.83.9-1.11.19-.28.38-.24.64-.14.26.09 1.66.78 1.94.93.28.14.47.21.54.33.07.12.07.7-.17 1.38z"/></svg></a>
+          <a href="https://wa.link/lws01i" target="_blank" aria-label="וואטסאפ"><svg width="16" height="16" viewBox="0 0 24 24" fill="#fff"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.85.5 3.58 1.36 5.07L2 22l5.2-1.47a9.86 9.86 0 0 0 4.84 1.28h.01c5.46 0 9.91-4.45 9.91-9.9C21.96 6.45 17.5 2 12.04 2zm5.8 13.99c-.24.68-1.4 1.3-1.92 1.38-.49.08-1.1.11-1.78-.11-.41-.13-.93-.3-1.6-.59-2.83-1.22-4.67-4.06-4.81-4.25-.14-.19-1.15-1.53-1.15-2.92 0-1.39.73-2.07.99-2.35.26-.28.56-.35.75-.35.19 0 .38 0 .54.01.17.01.41-.07.64.49.24.58.81 2 .88 2.14.07.14.12.31.02.5-.1.19-.15.31-.3.48-.15.17-.31.37-.44.5-.14.14-.29.29-.13.57.16.28.74 1.21 1.59 1.96 1.1.97 2.03 1.27 2.32 1.41.29.14.46.12.63-.07.17-.19.71-.83.9-1.11.19-.28.38-.24.64-.14.26.09 1.66.78 1.94.93.28.14.47.21.54.33.07.12.07.7-.17 1.38z"/></svg></a>
         </div>
       </div>
       <div class="footer-col">
         <h5>צור קשר</h5>
         <ul>
-          <li><a href="tel:+972559943240" style="color:inherit;">055-994-3240</a></li>
+          <li><a href="https://wa.link/lws01i" target="_blank" style="color:inherit;">שלחו לי הודעה בוואטסאפ</a></li>
           <li><a href="mailto:vsmediya@gmail.com" style="color:inherit;">vsmediya@gmail.com</a></li>
         </ul>
       </div>
@@ -1241,7 +1248,7 @@
   </div>
 </footer>
 
-<a href="https://wa.link/67ky7y" target="_blank" class="float-whatsapp" aria-label="וואטסאפ">
+<a href="https://wa.link/lws01i" target="_blank" class="float-whatsapp" aria-label="וואטסאפ">
   <svg viewBox="0 0 24 24" fill="#fff"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.85.5 3.58 1.36 5.07L2 22l5.2-1.47a9.86 9.86 0 0 0 4.84 1.28h.01c5.46 0 9.91-4.45 9.91-9.9C21.96 6.45 17.5 2 12.04 2zm5.8 13.99c-.24.68-1.4 1.3-1.92 1.38-.49.08-1.1.11-1.78-.11-.41-.13-.93-.3-1.6-.59-2.83-1.22-4.67-4.06-4.81-4.25-.14-.19-1.15-1.53-1.15-2.92 0-1.39.73-2.07.99-2.35.26-.28.56-.35.75-.35.19 0 .38 0 .54.01.17.01.41-.07.64.49.24.58.81 2 .88 2.14.07.14.12.31.02.5-.1.19-.15.31-.3.48-.15.17-.31.37-.44.5-.14.14-.29.29-.13.57.16.28.74 1.21 1.59 1.96 1.1.97 2.03 1.27 2.32 1.41.29.14.46.12.63-.07.17-.19.71-.83.9-1.11.19-.28.38-.24.64-.14.26.09 1.66.78 1.94.93.28.14.47.21.54.33.07.12.07.7-.17 1.38z"/></svg>
 </a>
 
@@ -1261,13 +1268,13 @@
     <button class="popup-close" onclick="closePopup()" aria-label="סגירה">✕</button>
     <div class="popup-icon">🛡️</div>
     <h3>לפני שאתם ממשיכים:</h3>
-    <p class="popup-transparency">השקיפות היא הערך המוביל שלנו - המחיר שתראו הוא המחיר הסופי, בלי תוספות ובלי עלויות נסתרות</p>
+    <p class="popup-transparency">אין הפתעות בדרך – המחיר שמופיע כאן הוא המחיר הסופי, כולל כל מה שצריך להקמת האתר.</p>
     <div class="popup-offer">
-      <span class="tag">מבצע לתקופה הקרובה בלבד</span>
+      <span class="tag">מבצע זמני לתקופה הקרובה</span>
       <div class="price"><span style="text-decoration:line-through;color:#9aa3b8;font-size:15px;">₪5,200</span> <b>₪3,299</b><br>כולל חיבורים, אינטגרציות ואחסון דומיין חינם לשנה</div>
     </div>
     <div class="popup-btns">
-      <a href="https://wa.link/67ky7y" target="_blank" class="popup-btn popup-btn-whatsapp">
+      <a href="https://wa.link/lws01i" target="_blank" class="popup-btn popup-btn-whatsapp">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="#fff"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.85.5 3.58 1.36 5.07L2 22l5.2-1.47a9.86 9.86 0 0 0 4.84 1.28h.01c5.46 0 9.91-4.45 9.91-9.9C21.96 6.45 17.5 2 12.04 2zm5.8 13.99c-.24.68-1.4 1.3-1.92 1.38-.49.08-1.1.11-1.78-.11-.41-.13-.93-.3-1.6-.59-2.83-1.22-4.67-4.06-4.81-4.25-.14-.19-1.15-1.53-1.15-2.92 0-1.39.73-2.07.99-2.35.26-.28.56-.35.75-.35.19 0 .38 0 .54.01.17.01.41-.07.64.49.24.58.81 2 .88 2.14.07.14.12.31.02.5-.1.19-.15.31-.3.48-.15.17-.31.37-.44.5-.14.14-.29.29-.13.57.16.28.74 1.21 1.59 1.96 1.1.97 2.03 1.27 2.32 1.41.29.14.46.12.63-.07.17-.19.71-.83.9-1.11.19-.28.38-.24.64-.14.26.09 1.66.78 1.94.93.28.14.47.21.54.33.07.12.07.7-.17 1.38z"/></svg>
         שלחו לי פרטים ב-WhatsApp
       </a>
@@ -1276,27 +1283,63 @@
         חייגו עכשיו: 055-994-3240
       </a>
     </div>
-    <button class="popup-dismiss" onclick="closePopup()">לא תודה, אמשיך לחפש</button>
+    <button class="popup-dismiss" onclick="closePopup()">תודה אני אמשיך לחפש באתר</button>
   </div>
 </div>
 
 <script>
   var selectedPackage = '';
+  var FORM_ENDPOINT = 'https://formspree.io/f/mgobjavj';
   function selectPackage(name){
     selectedPackage = name;
     var note = document.getElementById('selectedPackageNote');
-    note.textContent = 'נבחרה חבילת ' + name + ' - אחרי שתשלימי את הפרטים תועברי לתשלום מאובטח';
+    note.textContent = 'נבחרה חבילת ' + name + ' - בחירה מצוינת! מלאו את הפרטים ואחזור אליכם בהקדם כדי להתחיל בתהליך האפיון ולהבין לעומק מה העסק שלכם צריך.';
     var f = document.getElementById('leadForm');
     f.classList.add('active');
     f.scrollIntoView({behavior:'smooth', block:'center'});
   }
-  function goToCheckout(e){
+  function submitLeadForm(e){
     e.preventDefault();
-    alert('כאן יתבצע חיבור לסליקת UPAY עבור חבילת ' + (selectedPackage || 'הנבחרת') + ' - נתוני הלקוח יישלחו לעמוד תשלום מאובטח.');
+    var form = e.target;
+    var data = new FormData(form);
+    data.append('חבילה נבחרת', selectedPackage || 'לא נבחרה');
+    fetch(FORM_ENDPOINT, {
+      method: 'POST',
+      body: data,
+      headers: { 'Accept': 'application/json' }
+    }).then(function(res){
+      if(res.ok){
+        form.reset();
+        form.style.display = 'none';
+        document.getElementById('selectedPackageNote').textContent = 'תודה! הפרטים התקבלו ואחזור אליכם בהקדם.';
+      } else {
+        alert('משהו השתבש בשליחה - אפשר לנסות שוב או לפנות אלינו בוואטסאפ.');
+      }
+    }).catch(function(){
+      alert('משהו השתבש בשליחה - אפשר לנסות שוב או לפנות אלינו בוואטסאפ.');
+    });
   }
   document.querySelectorAll('.faq-item').forEach(function(item){
+    var answer = item.querySelector('.faq-a');
     item.querySelector('.faq-q').addEventListener('click', function(){
-      item.classList.toggle('open');
+      if(item.classList.contains('open')){
+        answer.style.maxHeight = answer.scrollHeight + 'px';
+        requestAnimationFrame(function(){
+          requestAnimationFrame(function(){
+            item.classList.remove('open');
+            answer.style.maxHeight = '0px';
+          });
+        });
+      } else {
+        item.classList.add('open');
+        answer.style.maxHeight = answer.scrollHeight + 'px';
+        answer.addEventListener('transitionend', function onEnd(e){
+          if(e.propertyName === 'max-height'){
+            if(item.classList.contains('open')){ answer.style.maxHeight = 'none'; }
+            answer.removeEventListener('transitionend', onEnd);
+          }
+        });
+      }
     });
   });
   var revealEls = document.querySelectorAll('.reveal');
@@ -1451,7 +1494,7 @@
     var current = null;
 
     function formatTime(sec){
-      if(!isFinite(sec)) return '0:00';
+      if(!isFinite(sec) || sec < 0) return '0:00';
       var m = Math.floor(sec / 60);
       var s = Math.floor(sec % 60);
       return m + ':' + (s < 10 ? '0' : '') + s;
@@ -1459,12 +1502,15 @@
 
     cards.forEach(function(card){
       var audio = card.querySelector('audio');
+      var waveWrapEl = card.querySelector('.voice-wave-wrap');
       var waveEl = card.querySelector('.voice-wave');
       var scrubberEl = card.querySelector('.voice-scrubber');
       var durationEl = card.querySelector('.voice-duration');
       var playBtn = card.querySelector('.voice-play');
       var iconPlay = card.querySelector('.icon-play');
       var iconPause = card.querySelector('.icon-pause');
+      var rafId = null;
+      var dragging = false;
 
       for(var i = 0; i < BAR_COUNT; i++){
         var bar = document.createElement('span');
@@ -1474,32 +1520,66 @@
       }
       var bars = Array.prototype.slice.call(waveEl.children);
 
-      audio.addEventListener('loadedmetadata', function(){
-        durationEl.textContent = formatTime(audio.duration);
-      });
+      /* Some mp3 encodes report duration as Infinity in Chrome until a seek
+         forces it to recalculate - without this the dot desyncs from the audio. */
+      function fixDuration(){
+        if(!isFinite(audio.duration)){
+          audio.currentTime = 1e101;
+          audio.addEventListener('durationchange', function onDur(){
+            audio.removeEventListener('durationchange', onDur);
+            audio.currentTime = 0;
+          });
+        } else {
+          durationEl.textContent = formatTime(audio.duration);
+        }
+      }
+      audio.addEventListener('loadedmetadata', fixDuration);
 
-      function updateProgress(){
-        var pct = audio.duration ? audio.currentTime / audio.duration : 0;
+      function renderProgress(pct){
+        pct = Math.max(0, Math.min(1, pct));
         var litCount = Math.round(pct * bars.length);
         bars.forEach(function(b, i){ b.classList.toggle('played', i < litCount); });
         scrubberEl.style.right = (100 - pct * 100) + '%';
-        durationEl.textContent = formatTime(audio.duration - audio.currentTime);
       }
 
-      audio.addEventListener('timeupdate', updateProgress);
+      function updateProgress(){
+        var dur = audio.duration;
+        var pct = (dur && isFinite(dur)) ? audio.currentTime / dur : 0;
+        renderProgress(pct);
+        if(!dragging){
+          durationEl.textContent = formatTime((isFinite(dur) ? dur : 0) - audio.currentTime);
+        }
+      }
+
+      function loop(){
+        updateProgress();
+        if(!audio.paused && !audio.ended){
+          rafId = requestAnimationFrame(loop);
+        }
+      }
+
+      audio.addEventListener('play', function(){
+        if(rafId) cancelAnimationFrame(rafId);
+        loop();
+      });
+      /* Safety net: rAF can get throttled in background/inactive tabs, so also
+         resync on the media clock's own timeupdate event to prevent drift. */
+      audio.addEventListener('timeupdate', function(){
+        if(!dragging) updateProgress();
+      });
       audio.addEventListener('ended', function(){
         card.classList.remove('playing');
         iconPlay.style.display = '';
         iconPause.style.display = 'none';
-        bars.forEach(function(b){ b.classList.remove('played'); });
-        scrubberEl.style.right = '100%';
+        if(rafId) cancelAnimationFrame(rafId);
+        renderProgress(0);
         durationEl.textContent = formatTime(audio.duration);
       });
-
       audio.addEventListener('pause', function(){
         card.classList.remove('playing');
         iconPlay.style.display = '';
         iconPause.style.display = 'none';
+        if(rafId) cancelAnimationFrame(rafId);
       });
 
       playBtn.addEventListener('click', function(){
@@ -1516,6 +1596,44 @@
           audio.pause();
         }
       });
+
+      /* Click or drag anywhere along the waveform to seek - matches the dot's hit area too. */
+      function seekFromClientX(clientX){
+        var rect = waveWrapEl.getBoundingClientRect();
+        var ratio = rect.width ? (clientX - rect.left) / rect.width : 0;
+        ratio = Math.max(0, Math.min(1, ratio));
+        renderProgress(ratio);
+        var dur = audio.duration;
+        if(dur && isFinite(dur)){
+          audio.currentTime = ratio * dur;
+          durationEl.textContent = formatTime(dur - audio.currentTime);
+        }
+      }
+      waveWrapEl.addEventListener('pointerdown', function(e){
+        dragging = true;
+        card.classList.add('dragging');
+        try { waveWrapEl.setPointerCapture(e.pointerId); } catch(err){}
+        seekFromClientX(e.clientX);
+      });
+      waveWrapEl.addEventListener('pointermove', function(e){
+        if(!dragging) return;
+        seekFromClientX(e.clientX);
+      });
+      function endDrag(e){
+        if(!dragging) return;
+        dragging = false;
+        card.classList.remove('dragging');
+        seekFromClientX(e.clientX);
+      }
+      /* Fallback for environments that only deliver a plain click (no full pointer sequence). */
+      waveWrapEl.addEventListener('click', function(e){
+        seekFromClientX(e.clientX);
+      });
+      waveWrapEl.addEventListener('pointerup', endDrag);
+      waveWrapEl.addEventListener('pointercancel', function(){
+        dragging = false;
+        card.classList.remove('dragging');
+      });
     });
   })();
 
@@ -1523,6 +1641,7 @@
   /* ── Portfolio videos: autoplay on scroll into view ── */
   (function(){
     var videos = Array.prototype.slice.call(document.querySelectorAll('.folio-video'));
+    var supportsHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
     var obs = new IntersectionObserver(function(entries){
       entries.forEach(function(en){
         if(en.isIntersecting){ en.target.play(); } else { en.target.pause(); }
@@ -1530,8 +1649,10 @@
     }, {threshold:0.3});
     videos.forEach(function(v){
       obs.observe(v);
-      v.parentElement.addEventListener('mouseenter', function(){ v.pause(); });
-      v.parentElement.addEventListener('mouseleave', function(){ v.play(); });
+      if(supportsHover){
+        v.parentElement.addEventListener('mouseenter', function(){ v.pause(); });
+        v.parentElement.addEventListener('mouseleave', function(){ v.play(); });
+      }
     });
   })();
 
@@ -1543,7 +1664,7 @@
       document.getElementById('popupOverlay').classList.add('active');
       sessionStorage.setItem('popupShown', '1');
     }
-  }, 120000);
+  }, 150000);
 
   var a11yFontStep = 0;
   function toggleA11yPanel(){
@@ -1551,7 +1672,7 @@
   }
   function a11yFont(dir){
     a11yFontStep = Math.max(-2, Math.min(4, a11yFontStep + dir));
-    document.documentElement.style.fontSize = (100 + a11yFontStep * 10) + '%';
+    document.documentElement.style.zoom = (100 + a11yFontStep * 10) + '%';
   }
   function a11yContrast(){
     document.body.classList.toggle('a11y-contrast');
@@ -1561,7 +1682,7 @@
   }
   function a11yReset(){
     a11yFontStep = 0;
-    document.documentElement.style.fontSize = '';
+    document.documentElement.style.zoom = '';
     document.body.classList.remove('a11y-contrast', 'a11y-underline');
   }
   document.addEventListener('click', function(e){
