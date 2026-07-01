@@ -98,6 +98,7 @@
     color:var(--text-on-dark);
     overflow:hidden;
   }
+  @media (max-width:760px){ .hero{padding-bottom:50px;} }
   .hero::before{
     content:"";position:absolute;inset:0;
     background:
@@ -113,6 +114,10 @@
     margin-bottom:28px;
   }
   .badge::before{content:"●";color:#3df27a;font-size:10px;}
+  @media (max-width:760px){
+    .badge{padding:4px 10px;font-size:10px;gap:4px;margin-bottom:14px;}
+    .badge::before{font-size:7px;}
+  }
   .hero h1{
     position:relative;
     font-size:clamp(30px,5.4vw,56px);
@@ -128,6 +133,9 @@
     max-width:660px;margin:0 auto 42px;
   }
   .hero-ctas{position:relative;display:flex;gap:18px;justify-content:center;flex-wrap:wrap;margin-bottom:0;}
+  @media (max-width:760px){
+    .hero .hero-ctas .btn{padding:9px 18px;font-size:13.5px;width:200px;}
+  }
 
   section{position:relative;padding:90px 0;}
   @media (max-width:760px){ section{padding:56px 0;} }
@@ -268,9 +276,30 @@
     .steps.in .step-num{animation:none;}
   }
 
+  /* About + reviews photo (mobile only) */
+  .about-reviews-mobile{display:none;}
+  @media (max-width:760px){
+    .about-reviews-mobile{
+      display:block;background:var(--white);text-align:center;
+      padding:0 0 18px;
+    }
+    .about-reviews-photo-wrap{
+      width:100vw;margin:0 calc(50% - 50vw);
+      box-shadow:0 14px 34px rgba(15,23,42,0.16);
+    }
+    .about-reviews-photo-wrap img{width:100%;display:block;}
+  }
+
   /* WhatsApp review showcase */
-  .wa-review-wrap{background:var(--bg-light);overflow:hidden;}
   .wa-review-inner{display:flex;align-items:center;justify-content:center;gap:54px;flex-wrap:wrap;}
+  .testimonials-desktop-img{display:none;}
+  @media (min-width:761px){
+    .wa-review-inner{display:none;}
+    .testimonials-desktop-img{
+      display:block;max-width:427px;width:100%;margin:20px auto 0;
+      border-radius:20px;box-shadow:0 24px 64px rgba(0,0,0,0.3);
+    }
+  }
   .wa-review-text{max-width:380px;text-align:center;}
   @media (min-width:760px){ .wa-review-text{text-align:right;} }
   .wa-review-text h3{font-size:clamp(22px,3vw,28px);font-weight:800;margin-bottom:14px;line-height:1.4;}
@@ -525,13 +554,6 @@
   }
   .testi-person b{font-size:14px;display:block;}
   .testi-person span{font-size:12px;color:var(--text-dim-on-dark);}
-  .reviews-wa-wrap{
-    max-width:520px;margin:32px auto 0;
-    border-radius:20px;overflow:hidden;
-    box-shadow:0 24px 64px rgba(0,0,0,0.3);
-    padding:0;
-  }
-  .reviews-img{width:100%;display:block;border-radius:12px;}
   .placeholder-note{
     text-align:center;color:var(--text-dim-on-dark);font-size:13px;margin-top:30px;opacity:.7;
   }
@@ -607,6 +629,8 @@
     border-bottom:1px solid var(--border-light);padding:22px 0;cursor:pointer;
   }
   #faq .section-title{font-size:clamp(24px,3.4vw,34px);}
+  .testimonials-title{font-size:clamp(13px,2vw,19px);}
+  @media (min-width:761px){ .testimonials-title{font-size:clamp(28px,3.2vw,40px);} }
   .faq-q{display:flex;justify-content:space-between;align-items:center;font-weight:700;font-size:17px;gap:14px;}
   .faq-q .plus{color:var(--primary);font-size:22px;transition:transform .2s;flex-shrink:0;}
   .faq-item.open .plus{transform:rotate(45deg);}
@@ -782,20 +806,10 @@
   </div>
 </section>
 
-<!-- 3.5 WHATSAPP REVIEW -->
-<section class="wa-review-wrap">
-  <div class="wrap">
-    <h2 class="section-title reveal" style="color:#1e293b;">ככה מרגישים בסוף התהליך</h2>
-    <div class="wa-review-inner" style="margin-top:20px;">
-      <div class="wa-card pop-in" id="waCardPop">
-        <div class="wa-glow"></div>
-        <div class="wa-card-badge">
-          <svg viewBox="0 0 24 24" fill="#25D366"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.85.5 3.58 1.36 5.07L2 22l5.2-1.47a9.86 9.86 0 0 0 4.84 1.28h.01c5.46 0 9.91-4.45 9.91-9.9C21.96 6.45 17.5 2 12.04 2zm5.8 13.99c-.24.68-1.4 1.3-1.92 1.38-.49.08-1.1.11-1.78-.11-.41-.13-.93-.3-1.6-.59-2.83-1.22-4.67-4.06-4.81-4.25-.14-.19-1.15-1.53-1.15-2.92 0-1.39.73-2.07.99-2.35.26-.28.56-.35.75-.35.19 0 .38 0 .54.01.17.01.41-.07.64.49.24.58.81 2 .88 2.14.07.14.12.31.02.5-.1.19-.15.31-.3.48-.15.17-.31.37-.44.5-.14.14-.29.29-.13.57.16.28.74 1.21 1.59 1.96 1.1.97 2.03 1.27 2.32 1.41.29.14.46.12.63-.07.17-.19.71-.83.9-1.11.19-.28.38-.24.64-.14.26.09 1.66.78 1.94.93.28.14.47.21.54.33.07.12.07.7-.17 1.38z"/></svg>
-          <span>ליאל עוגות</span>
-        </div>
-        <img src="images/whatsapp-review.png" alt="הודעה מלקוח">
-      </div>
-    </div>
+<!-- 3.6 ABOUT + REVIEWS (MOBILE ONLY) -->
+<section class="about-reviews-mobile">
+  <div class="about-reviews-photo-wrap reveal pop-in">
+    <img src="images/אני וביקורות2.png" alt="ולריה מבניית VS Media וביקורות אמיתיות מלקוחות">
   </div>
 </section>
 
@@ -1037,10 +1051,18 @@
 <!-- 7. TESTIMONIALS -->
 <section id="testimonials" class="section-dark">
   <div class="wrap">
-    <h2 class="section-title reveal">לקוחות מספרים</h2>
-    <div class="reviews-wa-wrap reveal">
-      <img src="images/ביקורות.png" alt="ביקורות לקוחות" class="reviews-img">
+    <h2 class="section-title reveal testimonials-title">ככה מרגישים בסוף התהליך 🎉</h2>
+    <div class="wa-review-inner" style="margin-top:20px;">
+      <div class="wa-card pop-in" id="waCardPop">
+        <div class="wa-glow"></div>
+        <div class="wa-card-badge">
+          <svg viewBox="0 0 24 24" fill="#25D366"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.85.5 3.58 1.36 5.07L2 22l5.2-1.47a9.86 9.86 0 0 0 4.84 1.28h.01c5.46 0 9.91-4.45 9.91-9.9C21.96 6.45 17.5 2 12.04 2zm5.8 13.99c-.24.68-1.4 1.3-1.92 1.38-.49.08-1.1.11-1.78-.11-.41-.13-.93-.3-1.6-.59-2.83-1.22-4.67-4.06-4.81-4.25-.14-.19-1.15-1.53-1.15-2.92 0-1.39.73-2.07.99-2.35.26-.28.56-.35.75-.35.19 0 .38 0 .54.01.17.01.41-.07.64.49.24.58.81 2 .88 2.14.07.14.12.31.02.5-.1.19-.15.31-.3.48-.15.17-.31.37-.44.5-.14.14-.29.29-.13.57.16.28.74 1.21 1.59 1.96 1.1.97 2.03 1.27 2.32 1.41.29.14.46.12.63-.07.17-.19.71-.83.9-1.11.19-.28.38-.24.64-.14.26.09 1.66.78 1.94.93.28.14.47.21.54.33.07.12.07.7-.17 1.38z"/></svg>
+          <span>ליאל עוגות</span>
+        </div>
+        <img src="images/whatsapp-review.png" alt="הודעה מלקוח">
+      </div>
     </div>
+    <img src="images/ביקורות.png" alt="ביקורות לקוחות" class="testimonials-desktop-img reveal">
   </div>
 </section>
 
@@ -1356,10 +1378,10 @@
   /* ── Stat counters ── */
   (function(){
     var statEls = Array.prototype.slice.call(document.querySelectorAll('.stat-num[data-count]'));
-    var fired = {};
+    var fired = new Set();
     function animateCount(el){
-      if(fired[el]) return;
-      fired[el] = true;
+      if(fired.has(el)) return;
+      fired.add(el);
       if(el.dataset.static) return;
       var target = parseInt(el.dataset.count, 10);
       var prefix = el.dataset.prefix || '';
