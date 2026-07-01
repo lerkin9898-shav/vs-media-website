@@ -338,7 +338,7 @@
     background:rgba(0,0,0,0.28);border-radius:50px;padding:4px 9px;
     font-family:'Poppins','Noto Sans Hebrew',sans-serif;
   }
-  .voice-wave-wrap{position:relative;flex:1;min-width:0;cursor:pointer;touch-action:none;padding:10px 0;margin:-10px 0;}
+  .voice-wave-wrap{position:relative;flex:1;min-width:0;}
   .voice-wave{display:flex;align-items:center;gap:2.5px;height:24px;}
   .voice-wave span{
     display:block;width:2.5px;border-radius:2px;background:rgba(255,255,255,0.32);
@@ -346,11 +346,10 @@
   }
   .voice-wave span.played{background:rgba(255,255,255,0.92);}
   .voice-scrubber{
-    position:absolute;top:50%;right:100%;width:13px;height:13px;border-radius:50%;
+    position:absolute;top:50%;right:100%;width:11px;height:11px;border-radius:50%;
     background:#fff;box-shadow:0 1px 4px rgba(0,0,0,0.4);
     transform:translate(50%,-50%);pointer-events:none;
   }
-  .voice-card.dragging .voice-scrubber{width:16px;height:16px;box-shadow:0 2px 8px rgba(0,0,0,0.5);}
   .voice-footer{
     position:absolute;bottom:8px;left:16px;right:16px;
     display:flex;align-items:center;justify-content:space-between;
@@ -1502,7 +1501,6 @@
 
     cards.forEach(function(card){
       var audio = card.querySelector('audio');
-      var waveWrapEl = card.querySelector('.voice-wave-wrap');
       var waveEl = card.querySelector('.voice-wave');
       var scrubberEl = card.querySelector('.voice-scrubber');
       var durationEl = card.querySelector('.voice-duration');
@@ -1510,7 +1508,6 @@
       var iconPlay = card.querySelector('.icon-play');
       var iconPause = card.querySelector('.icon-pause');
       var rafId = null;
-      var dragging = false;
 
       for(var i = 0; i < BAR_COUNT; i++){
         var bar = document.createElement('span');
@@ -1546,9 +1543,7 @@
         var dur = audio.duration;
         var pct = (dur && isFinite(dur)) ? audio.currentTime / dur : 0;
         renderProgress(pct);
-        if(!dragging){
-          durationEl.textContent = formatTime((isFinite(dur) ? dur : 0) - audio.currentTime);
-        }
+        durationEl.textContent = formatTime((isFinite(dur) ? dur : 0) - audio.currentTime);
       }
 
       function loop(){
@@ -1564,9 +1559,7 @@
       });
       /* Safety net: rAF can get throttled in background/inactive tabs, so also
          resync on the media clock's own timeupdate event to prevent drift. */
-      audio.addEventListener('timeupdate', function(){
-        if(!dragging) updateProgress();
-      });
+      audio.addEventListener('timeupdate', updateProgress);
       audio.addEventListener('ended', function(){
         card.classList.remove('playing');
         iconPlay.style.display = '';
@@ -1595,44 +1588,6 @@
         } else {
           audio.pause();
         }
-      });
-
-      /* Click or drag anywhere along the waveform to seek - matches the dot's hit area too. */
-      function seekFromClientX(clientX){
-        var rect = waveWrapEl.getBoundingClientRect();
-        var ratio = rect.width ? (clientX - rect.left) / rect.width : 0;
-        ratio = Math.max(0, Math.min(1, ratio));
-        renderProgress(ratio);
-        var dur = audio.duration;
-        if(dur && isFinite(dur)){
-          audio.currentTime = ratio * dur;
-          durationEl.textContent = formatTime(dur - audio.currentTime);
-        }
-      }
-      waveWrapEl.addEventListener('pointerdown', function(e){
-        dragging = true;
-        card.classList.add('dragging');
-        try { waveWrapEl.setPointerCapture(e.pointerId); } catch(err){}
-        seekFromClientX(e.clientX);
-      });
-      waveWrapEl.addEventListener('pointermove', function(e){
-        if(!dragging) return;
-        seekFromClientX(e.clientX);
-      });
-      function endDrag(e){
-        if(!dragging) return;
-        dragging = false;
-        card.classList.remove('dragging');
-        seekFromClientX(e.clientX);
-      }
-      /* Fallback for environments that only deliver a plain click (no full pointer sequence). */
-      waveWrapEl.addEventListener('click', function(e){
-        seekFromClientX(e.clientX);
-      });
-      waveWrapEl.addEventListener('pointerup', endDrag);
-      waveWrapEl.addEventListener('pointercancel', function(){
-        dragging = false;
-        card.classList.remove('dragging');
       });
     });
   })();
