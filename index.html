@@ -165,7 +165,7 @@
   .stats-bar{background:var(--white);color:var(--text-dark);padding:60px 0;border-bottom:1px solid var(--border-light);}
   .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:30px;text-align:center;}
   @media (max-width:760px){
-    .stats-bar{padding:28px 0;}
+    .stats-bar{padding:28px 0;border-bottom:none;}
     .stats-grid{grid-template-columns:repeat(2,1fr);gap:16px;}
     .stat-label{font-size:12px;margin-top:3px;}
   }
@@ -281,12 +281,13 @@
   @media (max-width:760px){
     .about-reviews-mobile{
       display:block;background:var(--white);text-align:center;
-      padding:0 0 18px;
+      padding:36px 0 40px;
     }
     .about-reviews-photo-wrap{
       width:100vw;margin:0 calc(50% - 50vw);
-      box-shadow:0 14px 34px rgba(15,23,42,0.16);
     }
+    .about-reviews-photo-wrap.fade-only{transform:none;transition:opacity .8s ease;}
+    .about-reviews-photo-wrap.fade-only.in{transform:none;}
     .about-reviews-photo-wrap img{width:100%;display:block;}
   }
 
@@ -825,8 +826,8 @@
 
 <!-- 3.6 ABOUT + REVIEWS (MOBILE ONLY) -->
 <section class="about-reviews-mobile">
-  <div class="about-reviews-photo-wrap reveal pop-in">
-    <img src="images/אני וביקורות2.png" alt="ולריה מבניית VS Media וביקורות אמיתיות מלקוחות">
+  <div class="about-reviews-photo-wrap reveal fade-only">
+    <img src="images/אני לאתר.png" alt="ולריה מבניית VS Media וביקורות אמיתיות מלקוחות">
   </div>
 </section>
 
