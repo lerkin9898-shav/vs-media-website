@@ -181,10 +181,10 @@
     60%{opacity:1;transform:translateY(-6px) scale(1.08);}
     100%{opacity:1;transform:translateY(0) scale(1);}
   }
-  .stats-grid > .reveal.in:nth-child(1) .stat-num{animation:statPop .7s cubic-bezier(.34,1.56,.64,1) .1s both;}
-  .stats-grid > .reveal.in:nth-child(2) .stat-num{animation:statPop .7s cubic-bezier(.34,1.56,.64,1) .25s both;}
-  .stats-grid > .reveal.in:nth-child(3) .stat-num{animation:statPop .7s cubic-bezier(.34,1.56,.64,1) .4s both;}
-  .stats-grid > .reveal.in:nth-child(4) .stat-num{animation:statPop .7s cubic-bezier(.34,1.56,.64,1) .55s both;}
+  .stats-grid > .reveal.in:nth-child(1) .stat-num{animation:statPop 1.1s cubic-bezier(.34,1.56,.64,1) .1s both;}
+  .stats-grid > .reveal.in:nth-child(2) .stat-num{animation:statPop 1.1s cubic-bezier(.34,1.56,.64,1) .3s both;}
+  .stats-grid > .reveal.in:nth-child(3) .stat-num{animation:statPop 1.1s cubic-bezier(.34,1.56,.64,1) .5s both;}
+  .stats-grid > .reveal.in:nth-child(4) .stat-num{animation:statPop 1.1s cubic-bezier(.34,1.56,.64,1) .7s both;}
   @media (prefers-reduced-motion: reduce){
     .stat-num{opacity:1;transform:none;animation:none;}
   }
@@ -292,7 +292,7 @@
     .about-reviews-photo-wrap{
       width:100vw;margin:0 calc(50% - 50vw);
     }
-    .about-reviews-photo-wrap.fade-only{transform:none;transition:opacity .8s ease;}
+    .about-reviews-photo-wrap.fade-only{transform:none;transition:opacity 1.2s ease;}
     .about-reviews-photo-wrap.fade-only.in{transform:none;}
     .about-reviews-photo-wrap img{
       width:100%;display:block;
@@ -729,10 +729,19 @@
   body.a11y-contrast .card, body.a11y-contrast .pricing-wrap, body.a11y-contrast .testi-card{background:#111 !important;border-color:#444 !important;color:#fff !important;}
   body.a11y-underline a{text-decoration:underline !important;}
 
-  .reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease, transform .6s ease;}
+  .reveal{opacity:0;transform:translateY(30px);transition:opacity .95s cubic-bezier(.22,.61,.36,1), transform .95s cubic-bezier(.22,.61,.36,1);}
   .reveal.in{opacity:1;transform:none;}
+  /* Staggered entrances - delay applies only on the way in */
+  .hero .wrap > .reveal.in:nth-child(2){transition-delay:.15s;}
+  .hero .wrap > .reveal.in:nth-child(3){transition-delay:.3s;}
+  .hero .wrap > .reveal.in:nth-child(4){transition-delay:.45s;}
+  .grid-4 > .reveal.in:nth-child(2){transition-delay:.15s;}
+  .grid-4 > .reveal.in:nth-child(3){transition-delay:.3s;}
+  .grid-4 > .reveal.in:nth-child(4){transition-delay:.45s;}
+  .packages-grid > .reveal.in:nth-child(2){transition-delay:.15s;}
+  .packages-grid > .reveal.in:nth-child(3){transition-delay:.3s;}
   .pop-in{opacity:0;transform:scale(.55);}
-  .pop-in.in{opacity:1;transform:scale(1);transition:opacity .55s ease, transform .55s cubic-bezier(.26,1.6,.44,1);}
+  .pop-in.in{opacity:1;transform:scale(1);transition:opacity .85s ease, transform .85s cubic-bezier(.26,1.5,.44,1);}
   @media (prefers-reduced-motion: reduce){
     .pop-in{opacity:1;transform:none;transition:none;}
     .reveal{opacity:1;transform:none;transition:none;}
@@ -821,10 +830,10 @@
 <!-- 1. HERO -->
 <section class="hero" id="main-content">
   <div class="wrap">
-    <div class="badge">אתר מותאם בלי תבניות גנריות</div>
-    <h1>אתרים שמייצרים <span class="hl">תוצאות עסקיות אמיתיות</span><br>לא רק נראים טוב</h1>
-    <p class="sub">עיצוב מדויק, חוויית משתמש ממוקדת, ואתרים שמייצרים אמון ופניות אמיתיות לעסק שלך - לא עוד אתר שעומד בצד.</p>
-    <div class="hero-ctas">
+    <div class="badge reveal">אתר מותאם בלי תבניות גנריות</div>
+    <h1 class="reveal">אתרים שמייצרים <span class="hl">תוצאות עסקיות אמיתיות</span><br>לא רק נראים טוב</h1>
+    <p class="sub reveal">עיצוב מדויק, חוויית משתמש ממוקדת, ואתרים שמייצרים אמון ופניות אמיתיות לעסק שלך - לא עוד אתר שעומד בצד.</p>
+    <div class="hero-ctas reveal">
       <a href="#packages" class="btn btn-cta">בואו נדבר על האתר שלכם</a>
       <a href="#process" class="btn btn-outline-dark">איך זה עובד ↓</a>
     </div>
@@ -1427,31 +1436,33 @@
   var revealEls = document.querySelectorAll('.reveal');
   var obs = new IntersectionObserver(function(entries){
     entries.forEach(function(en){
-      if(en.isIntersecting){ en.target.classList.add('in'); }
+      if(en.isIntersecting){
+        en.target.classList.add('in');
+      } else {
+        en.target.classList.remove('in');
+      }
     });
   }, {threshold:0.15});
   revealEls.forEach(function(el){ obs.observe(el); });
 
-  /* ── Stat counters ── */
+  /* ── Stat counters (replay on every scroll into view) ── */
   (function(){
     var statEls = Array.prototype.slice.call(document.querySelectorAll('.stat-num[data-count]'));
-    var fired = new Set();
     function animateCount(el){
-      if(fired.has(el)) return;
-      fired.add(el);
       if(el.dataset.static) return;
+      if(el._raf) cancelAnimationFrame(el._raf);
       var target = parseInt(el.dataset.count, 10);
       var prefix = el.dataset.prefix || '';
       var suffix = el.dataset.suffix || '';
-      var dur = 1400, start = null;
+      var dur = 1800, start = null;
       function ease(t){ return t < 0.5 ? 2*t*t : -1+(4-2*t)*t; }
       function step(ts){
         if(!start) start = ts;
         var prog = Math.min((ts-start)/dur, 1);
         el.textContent = prefix + Math.round(ease(prog)*target) + suffix;
-        if(prog < 1) requestAnimationFrame(step);
+        if(prog < 1){ el._raf = requestAnimationFrame(step); }
       }
-      requestAnimationFrame(step);
+      el._raf = requestAnimationFrame(step);
     }
     var cObs = new IntersectionObserver(function(entries){
       entries.forEach(function(en){
@@ -1469,31 +1480,30 @@
     var len = path.getTotalLength();
     path.style.strokeDasharray = len;
     path.style.strokeDashoffset = len;
-    var drawn = false;
+    var lineRaf = null;
     function drawLine(){
-      if(drawn) return;
-      drawn = true;
-      var start = null, dur = 900;
+      if(lineRaf) cancelAnimationFrame(lineRaf);
+      var start = null, dur = 1300;
       function step(ts){
         if(!start) start = ts;
         var prog = Math.min((ts - start) / dur, 1);
         var ease = prog < 0.5 ? 2*prog*prog : -1+(4-2*prog)*prog;
         path.style.strokeDashoffset = len * (1 - ease);
-        if(prog < 1) requestAnimationFrame(step);
+        if(prog < 1){ lineRaf = requestAnimationFrame(step); }
       }
-      requestAnimationFrame(step);
+      lineRaf = requestAnimationFrame(step);
     }
-    function checkVisible(){
-      var r = trigger.getBoundingClientRect();
-      if(r.top < window.innerHeight){ drawLine(); off(); }
-    }
-    function off(){
-      window.removeEventListener('scroll', checkVisible, {passive:true});
-      document.removeEventListener('scroll', checkVisible, {passive:true});
-    }
-    window.addEventListener('scroll', checkVisible, {passive:true});
-    document.addEventListener('scroll', checkVisible, {passive:true});
-    setTimeout(checkVisible, 500);
+    var lineObs = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){
+          drawLine();
+        } else {
+          if(lineRaf) cancelAnimationFrame(lineRaf);
+          path.style.strokeDashoffset = len;
+        }
+      });
+    }, {threshold:0.5});
+    lineObs.observe(trigger);
   })();
 
   (function(){
@@ -1532,11 +1542,19 @@
 
     var popEl = document.getElementById('waCardPop');
     if(!popEl) return;
+    var popSoundPlayed = false;
     var popObs = new IntersectionObserver(function(entries){
       entries.forEach(function(en){
-        if(en.isIntersecting && !popEl.classList.contains('in')){
-          popEl.classList.add('in');
-          setTimeout(playPop, 280);
+        if(en.isIntersecting){
+          if(!popEl.classList.contains('in')){
+            popEl.classList.add('in');
+            if(!popSoundPlayed){
+              popSoundPlayed = true;
+              setTimeout(playPop, 280);
+            }
+          }
+        } else {
+          popEl.classList.remove('in');
         }
       });
     }, {threshold:0.4});
